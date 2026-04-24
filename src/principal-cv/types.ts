@@ -1,11 +1,5 @@
 export type DataInfo = {
   person: PersonalInfo
-}
-
-export type PersonalInfo = {
-  name: string
-  age: number
-  position: string
   address: {
     street: string
     number: number
@@ -15,6 +9,12 @@ export type PersonalInfo = {
     neighborhood: string
     zip: string
   }
+}
+
+export type PersonalInfo = {
+  name: string
+  age: number
+  position: string
   email: string
   phone: string
   linkedin: string
@@ -23,7 +23,7 @@ export type PersonalInfo = {
   education: {
     university: string
     major: string
-    completionDate: Date
+    completionDate: Date | null
     expectedGraduation: Date
     isGraduated: boolean
   }[]
@@ -36,7 +36,7 @@ export type PersonalInfo = {
   language: {
     name: string
     level: string
-  }
+  }[]
   experience: {
     company: string
     position: string

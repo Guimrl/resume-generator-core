@@ -1,8 +1,45 @@
 * {
   font-family: Arial, Helvetica, sans-serif;
   line-height: normal;
+  /* border: 1px solid red; */
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 11pt;
 }
 
 a {
   text-decoration: none;
+  color: #000;
+}
+
+.header {
+  text-align: center;
+}
+
+h2 {
+  font-size: 12pt;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.header h3 {
+  color: #000;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.left-info,
+.right-info {
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.left-info {
+  float: left;
+}
+
+.right-info {
+  float: right;
 }

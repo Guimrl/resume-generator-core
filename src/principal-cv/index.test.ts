@@ -9,15 +9,6 @@ describe('deve gerar um pdf', () => {
         name: 'John Doe',
         age: 30,
         position: 'Desenvolvedor Full Stack',
-        address: {
-          street: 'Av. Paulista',
-          number: 1000,
-          city: 'São Paulo',
-          state: 'SP',
-          country: 'Brasil',
-          neighborhood: 'Bela Vista',
-          zip: '01310-100'
-        },
         email: 'john.doe@example.com',
         phone: '+55 11 99999-9999',
         linkedin: 'https://linkedin.com/in/johndoe',
@@ -30,6 +21,13 @@ describe('deve gerar um pdf', () => {
             completionDate: new Date('2023-12-15'),
             expectedGraduation: new Date('2023-12-15'),
             isGraduated: true
+          },
+          {
+            university: 'Anhanguera',
+            major: 'Mestrado em Redes',
+            completionDate: null,
+            expectedGraduation: new Date('2027-12-15'),
+            isGraduated: false
           }
         ],
         courses: [
@@ -40,10 +38,16 @@ describe('deve gerar um pdf', () => {
             isCompleted: true
           }
         ],
-        language: {
-          name: 'Inglês',
-          level: 'Avançado'
-        },
+        language: [
+          {
+            name: 'Inglês',
+            level: 'Avançado'
+          },
+          {
+            name: 'Espanhol',
+            level: 'Intermediário'
+          }
+        ],
         experience: [
           {
             company: 'Empresa Exemplo',
@@ -59,6 +63,15 @@ describe('deve gerar um pdf', () => {
           { name: 'React', level: 'Avançado' },
           { name: 'Node.js', level: 'Intermediário' }
         ]
+      },
+      address: {
+        street: 'Av. Paulista',
+        number: 1000,
+        city: 'São Paulo',
+        state: 'SP',
+        country: 'Brasil',
+        neighborhood: 'Bela Vista',
+        zip: '01310-100'
       }
     }
 
