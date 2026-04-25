@@ -43,3 +43,21 @@ h2 {
 .right-info {
   float: right;
 }
+
+.middle-info {
+  text-align: center;
+  /* border: 1px solid red; */
+}
+
+.section {
+  margin-bottom: 10px;
+  /* border: 1px solid red; */
+}
+
+.new-line {
+  margin-bottom: 10px;
+}
+
+.gap {
+  margin-left: 10px;
+}
