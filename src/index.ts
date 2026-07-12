@@ -1,32 +1,19 @@
-import htmlPdf from 'html-pdf'
-import fs from 'node:fs'
-import path from 'node:path'
+import express from "express";
+import cors from "cors";
+import routes from "./api/routes";
 
-export type PDFOptions = {
-  orientation?: 'portrait' | 'landscape'
-  format?: 'A4' | 'Letter'
-  border?: string
-  style?: string
+const app = express();
+const port = Number(process.env.PORT) || 3000;
+
+app.use(cors({ origin: "*" }));
+app.use(express.json());
+
+routes(app);
+
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`API listening on port ${port}`);
+  });
 }
 
-export const generatePDF = (body: string, options: PDFOptions): Promise<string> => {
-  const { orientation = 'portrait', format = 'A4', border, style } = options
-
-  const template = style ? body.replace('</head>', `<style>${style}</style>\n</head>`) : body
-
-  return new Promise((resolve, reject) => {
-    htmlPdf
-      .create(template, {
-        border: border || '0.5cm',
-        format: format,
-        orientation
-      })
-      .toBuffer((err, buffer) => {
-        if (err) {
-          return reject(new Error('Erro ao gerar PDF (html-pdf)'))
-        }
-
-        return resolve(buffer.toString('base64'))
-      })
-  })
-}
+export default app;

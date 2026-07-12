@@ -1,5 +1,5 @@
-import { formatDate, readCSSFile } from '../utils'
-import { generatePDF } from '../index'
+import { formatDate, formatMonthYear, readCSSFile } from "../../shared/utils";
+import { generatePDF } from "../../index";
 import {
   CoursesInfo,
   DataInfo,
@@ -8,66 +8,86 @@ import {
   LanguageInfo,
   PrincipalCVGenerator,
   SkillsInfo
-} from './types'
-import path from 'node:path'
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+} from "./types";
+import path from "node:path";
 
-const formatMonthYear = (date?: Date): string => {
-  if (!date) return ''
-  const formatted = format(date, 'LLLL yyyy', { locale: ptBR })
-  return formatted.charAt(0).toUpperCase() + formatted.slice(1)
-}
+
 
 export class PricipalCVPDF implements PrincipalCVGenerator {
-  private readonly style: string = readCSSFile(path.resolve(__dirname, 'style.css'))
+  private readonly style: string = readCSSFile(
+    path.resolve(__dirname, "style.css")
+  );
 
   async template(data: DataInfo): Promise<string> {
-    const { personal, address, contact, education, courses, language, experience, skills } = data
+    const {
+      personal,
+      address,
+      contact,
+      education,
+      courses,
+      language,
+      experience,
+      skills
+    } = data;
 
     const getSkills = (skills: SkillsInfo[]) => {
-      return skills.map(skill => /*html*/ `<span><b>${skill.name}</b></span>`).join(' | ')
-    }
+      return skills
+        .map((skill) => /*html*/ `<span><b>${skill.name}</b></span>`)
+        .join(" | ");
+    };
 
     const getEducation = (education: EducationInfo[]) => {
       return education
         .map(
-          e =>
-            /*html*/ `<p><b>${e.major}</b> | ${e.university} (${e.isGraduated ? 'Concluído' : 'Em andamento'}, ${
-              e.isGraduated ? formatMonthYear(e.completionDate ?? undefined) : formatMonthYear(e.expectedGraduation)
+          (e) =>
+            /*html*/ `<p><b>${e.major}</b> | ${e.university} (${e.isGraduated ? "Concluído" : "Em andamento"}, ${e.isGraduated
+              ? formatMonthYear(e.completionDate ?? undefined)
+              : formatMonthYear(e.expectedGraduation)
             })</p>`
         )
-        .join('')
-    }
+        .join("");
+    };
 
     const getCourses = (courses: CoursesInfo[]) => {
       return courses
-        .map(
-          course =>
-            /*html*/ `<p>${course.name} - ${course.institution} (${course.duration}, ${course.isCompleted ? '' : 'Cursando, '} ${course.completionDate.getFullYear()})</p>`
-        )
-        .join('')
-    }
+        .map((course) => {
+          const completionDate =
+            course.completionDate instanceof Date
+              ? course.completionDate
+              : course.completionDate
+                ? new Date(course.completionDate)
+                : null;
+
+          const year = completionDate?.getFullYear?.() ?? "";
+          const label = course.isCompleted ? `${year}` : `Cursando${year ? `, ${year}` : ""}`;
+
+          return /*html*/ `<p>${course.name} - ${course.institution} (${course.duration}, ${label})</p>`;
+        })
+        .join("");
+    };
 
     const getLanguage = (language: LanguageInfo[]) => {
-      return language.map(l => /*html*/ `<span><b>${l.name}</b>: ${l.level}</span>`).join(', ')
-    }
+      return language
+        .map((l) => /*html*/ `<span><b>${l.name}</b>: ${l.level}</span>`)
+        .join(", ");
+    };
 
     const getExperience = (experience: ExperienceInfo[]) => {
       return experience
         .map(
-          exp => /*html*/ `
-            <p class="new-line"><b>${exp.position}</b> (${formatDate(exp.startDate)} - ${
-              exp.isCurrent ? 'Atualmente' : formatDate(exp.endDate ?? undefined)
+          (exp) => /*html*/ `
+            <p class="new-line"><b>${exp.position}</b> (${formatDate(exp.startDate)} - ${exp.isCurrent
+              ? "Atualmente"
+              : formatDate(exp.endDate ?? undefined)
             })</p>
             <p class="new-line">${exp.company} | <i>${exp.companyResume}</i></p>
             <ul class="new-line">
-              ${exp.description.map(desc => /*html*/ `<li class="gap">- ${desc}</li>`).join('')}
+              ${exp.description.map((desc) => /*html*/ `<li class="gap">- ${desc}</li>`).join("")}
             </ul>
           `
         )
-        .join('')
-    }
+        .join("");
+    };
 
     const templateStructure = /*html*/ `
     <html>
@@ -114,24 +134,24 @@ export class PricipalCVPDF implements PrincipalCVGenerator {
         </div>
         </div>
       </body>
-    </html>`
+    </html>`;
 
-    return templateStructure
+    return templateStructure;
   }
 
   async generate(data: DataInfo): Promise<string> {
     try {
-      const template = await this.template(data)
+      const template = await this.template(data);
 
       return generatePDF(template, {
-        orientation: 'portrait',
-        format: 'A4',
-        border: '1cm',
+        orientation: "portrait",
+        format: "A4",
+        border: "1cm",
         style: this.style
-      })
+      });
     } catch (error) {
-      console.log(error)
-      throw new Error('Erro ao gerar PDF (html-pdf)')
+      console.log(error);
+      throw new Error("Erro ao gerar PDF (html-pdf)");
     }
   }
 }
