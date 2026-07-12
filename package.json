@@ -5,6 +5,9 @@
   "repository": "https://github.com/Guimrl/resume-generator-core.git",
   "author": "Guimrl <gui.amaral123@outlook.com>",
   "license": "MIT",
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "test": "jest --watchAll",
     "test-file": "jest --watchAll --testPathPattern",
@@ -15,18 +18,24 @@
   "dependencies": {
     "@types/html-pdf": "3.0.3",
     "@types/lodash": "4.17.24",
+    "cors": "^2.8.6",
     "date-fns": "4.1.0",
+    "express": "^4.18.3",
     "html-pdf": "3.0.1",
     "lit": "^3.3.2",
     "lit-html": "^3.3.2",
     "lodash": "4.18.1",
+    "prettier": "^3.9.5",
     "typescript": "6.0.3"
   },
   "devDependencies": {
     "@lit-labs/ssr": "^4.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.18",
     "@types/jest": "^30.0.0",
     "jest": "30.3.0",
     "nodemon": "^3.1.14",
+    "phantomjs-prebuilt": "^2.1.16",
     "ts-jest": "29.4.9",
     "ts-node": "10.9.2",
     "typescript-lit-html-plugin": "^0.9.0"
