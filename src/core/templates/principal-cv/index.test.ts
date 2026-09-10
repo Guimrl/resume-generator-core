@@ -1,6 +1,7 @@
 import { PricipalCVPDF } from "./PrincipalCV";
 import { DataInfo } from "./types";
-import fs from "fs";
+import { writeFile } from "node:fs/promises";
+import path from "node:path";
 
 describe("deve gerar um pdf", () => {
   it("template", async () => {
@@ -110,18 +111,10 @@ describe("deve gerar um pdf", () => {
     const dependency = new PricipalCVPDF();
     const pdf = await dependency.generate(data);
 
-    await new Promise((resolve, reject) => {
-      fs.writeFile(
-        "src/core/templates/principal-cv/principalCV.pdf",
-        pdf,
-        { encoding: "base64" },
-        (err) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(true);
-        }
-      );
-    });
-  });
+    const document = Buffer.from(pdf, "base64");
+    expect(document.subarray(0, 5).toString("ascii")).toBe("%PDF-");
+    expect(document.toString("base64")).toBe(pdf);
+
+    await writeFile(path.resolve(__dirname, "principalCV.pdf"), document);
+  }, 30_000);
 });

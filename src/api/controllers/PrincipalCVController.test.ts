@@ -56,6 +56,8 @@ describe("PrincipalCVController", () => {
     expect(res.statusCode).toBe(201);
     expect(res.body).toHaveProperty("pdf");
     expect(typeof res.body.pdf).toBe("string");
-    expect(res.body.pdf.length).toBeGreaterThan(0);
-  });
+    const document = Buffer.from(res.body.pdf, "base64");
+    expect(document.subarray(0, 5).toString("ascii")).toBe("%PDF-");
+    expect(document.toString("base64")).toBe(res.body.pdf);
+  }, 30_000);
 });

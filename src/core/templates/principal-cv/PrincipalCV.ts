@@ -1,5 +1,5 @@
 import { formatDate, formatMonthYear, readCSSFile } from "../../shared/utils";
-import { generatePDF } from "../../index";
+import { PuppeteerPDFGenerator } from "../../index";
 import {
   CoursesInfo,
   DataInfo,
@@ -11,12 +11,12 @@ import {
 } from "./types";
 import path from "node:path";
 
-
-
 export class PricipalCVPDF implements PrincipalCVGenerator {
   private readonly style: string = readCSSFile(
     path.resolve(__dirname, "style.css")
   );
+
+  constructor(private readonly pdfGenerator = new PuppeteerPDFGenerator()) {}
 
   async template(data: DataInfo): Promise<string> {
     const {
@@ -140,18 +140,13 @@ export class PricipalCVPDF implements PrincipalCVGenerator {
   }
 
   async generate(data: DataInfo): Promise<string> {
-    try {
-      const template = await this.template(data);
+    const template = await this.template(data);
 
-      return generatePDF(template, {
-        orientation: "portrait",
-        format: "A4",
-        border: "1cm",
-        style: this.style
-      });
-    } catch (error) {
-      console.log(error);
-      throw new Error("Erro ao gerar PDF (html-pdf)");
-    }
+    return this.pdfGenerator.generate(template, {
+      orientation: "portrait",
+      format: "A4",
+      border: "1cm",
+      style: this.style
+    });
   }
 }
