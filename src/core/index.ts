@@ -1,6 +1,8 @@
-import { PDFOptions, PuppeteerPDFGenerator } from "./PuppeteerPDFGenerator";
+import { PuppeteerPDFGenerator } from "./PuppeteerPDFGenerator";
+import { PDFOptions } from "./shared/types/types";
 
-export { PDFOptions, PuppeteerPDFGenerator } from "./PuppeteerPDFGenerator";
+export { PuppeteerPDFGenerator } from "./PuppeteerPDFGenerator";
+export type { PDFOptions } from "./shared/types/types";
 
 const pdfGenerator = new PuppeteerPDFGenerator();
 

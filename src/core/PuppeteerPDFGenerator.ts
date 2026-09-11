@@ -1,17 +1,15 @@
 import puppeteer from "puppeteer";
+import { PDFOptions } from "./shared/types/types";
+import { PDFGenerator } from "./shared/types/interfaces";
 
-export type PDFOptions = {
-  orientation?: "portrait" | "landscape";
-  format?: "A4" | "Letter";
-  border?: string;
-  style?: string;
-};
-
-export class PuppeteerPDFGenerator {
+export class PuppeteerPDFGenerator implements PDFGenerator {
   async generate(body: string, options: PDFOptions = {}): Promise<string> {
     const { orientation = "portrait", format = "A4", border, style } = options;
     const margin = border || "0.5cm";
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"]
+    });
 
     try {
       const page = await browser.newPage();

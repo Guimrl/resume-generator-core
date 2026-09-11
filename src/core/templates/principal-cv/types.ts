@@ -21,8 +21,8 @@ export type ContactInfo = {
   portfolio: string;
 };
 export type AddressInfo = {
-  street: string;
-  number: number;
+  street: string | null;
+  number: string | null;
   city: string;
   state: string;
   country: string;
@@ -56,7 +56,9 @@ export type ExperienceInfo = {
   isCurrent: boolean;
   description: string[];
 };
-export type SkillsInfo = { name: string };
+export type SkillsInfo = {
+  name: string;
+};
 
 export interface PrincipalCVGenerator {
   template(data: DataInfo): Promise<string>;

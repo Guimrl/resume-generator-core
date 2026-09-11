@@ -1,7 +1,7 @@
 {
   "name": "resume-generator-core",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "repository": "https://github.com/Guimrl/resume-generator-core.git",
   "author": "Guimrl <gui.amaral123@outlook.com>",
   "license": "MIT",
@@ -9,10 +9,11 @@
     "node": "24.x"
   },
   "scripts": {
-    "test": "jest --watchAll",
-    "test:file": "jest --watchAll --testPathPatterns",
+    "start": "node dist/src/index.js",
+    "test": "jest --runInBand --watchAll=false",
+    "test:file": "jest --runInBand --watchAll=false --testPathPatterns",
     "gen:principal-cv": "jest --runInBand --watchAll=false src/core/templates/principal-cv/index.test.ts",
-    "build": "tsc -p ./tsconfig.json",
+    "build": "node scripts/clean-dist.js && tsc -p ./tsconfig.build.json && node scripts/copy-assets.js",
     "dev": "ts-node src/index.ts"
   },
   "dependencies": {

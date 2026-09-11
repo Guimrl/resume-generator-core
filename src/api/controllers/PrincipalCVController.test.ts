@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 import PrincipalCVController from "./PrincipalCVController";
 
 describe("PrincipalCVController", () => {

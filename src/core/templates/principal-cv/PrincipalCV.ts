@@ -40,9 +40,10 @@ export class PricipalCVPDF implements PrincipalCVGenerator {
       return education
         .map(
           (e) =>
-            /*html*/ `<p><b>${e.major}</b> | ${e.university} (${e.isGraduated ? "Concluído" : "Em andamento"}, ${e.isGraduated
-              ? formatMonthYear(e.completionDate ?? undefined)
-              : formatMonthYear(e.expectedGraduation)
+            /*html*/ `<p><b>${e.major}</b> | ${e.university} (${e.isGraduated ? "Concluído" : "Em andamento"}, ${
+              e.isGraduated
+                ? formatMonthYear(e.completionDate ?? undefined)
+                : formatMonthYear(e.expectedGraduation)
             })</p>`
         )
         .join("");
@@ -59,7 +60,9 @@ export class PricipalCVPDF implements PrincipalCVGenerator {
                 : null;
 
           const year = completionDate?.getFullYear?.() ?? "";
-          const label = course.isCompleted ? `${year}` : `Cursando${year ? `, ${year}` : ""}`;
+          const label = course.isCompleted
+            ? `${year}`
+            : `Cursando${year ? `, ${year}` : ""}`;
 
           return /*html*/ `<p>${course.name} - ${course.institution} (${course.duration}, ${label})</p>`;
         })
@@ -76,9 +79,10 @@ export class PricipalCVPDF implements PrincipalCVGenerator {
       return experience
         .map(
           (exp) => /*html*/ `
-            <p class="new-line"><b>${exp.position}</b> (${formatDate(exp.startDate)} - ${exp.isCurrent
-              ? "Atualmente"
-              : formatDate(exp.endDate ?? undefined)
+            <p class="new-line"><b>${exp.position}</b> (${formatDate(exp.startDate)} - ${
+              exp.isCurrent
+                ? "Atualmente"
+                : formatDate(exp.endDate ?? undefined)
             })</p>
             <p class="new-line">${exp.company} | <i>${exp.companyResume}</i></p>
             <ul class="new-line">
@@ -98,23 +102,26 @@ export class PricipalCVPDF implements PrincipalCVGenerator {
           <h3>${personal.position}</h3>  
         </div>
         <div class="section">
-          <div class="left-info">
-            <p>${personal.age} anos</p>
-            <p>${address.zip} ${address.neighborhood}, ${address.city} - ${address.state}</p>
-            <p>${contact.email}</p>
-            <p>${contact.phone}</p>
+          <div style="display: flex; flex-direction: row;">
+            <p>${personal.age} anos | ${address.zip} ${address.neighborhood}, ${address.city} - ${address.state} | ${contact.phone} | ${contact.email}</p>
           </div>
-          <div class="right-info">
-            
-            <a href="${contact.portfolio}">Portfolio: ${contact.portfolio}</a>
-            <a href="${contact.github}">GitHub: ${contact.github}</a>
-            <a href="${contact.linkedin}">LinkedIn: ${contact.linkedin}</a>
+          <div style="display: flex; flex-direction: row;">
+            <a href="${contact.portfolio}">Portfolio: ${contact.portfolio} </a><p> | </p><a href="${contact.linkedin}"> LinkedIn: ${contact.linkedin} </a><p> | </p><a href="${contact.github}"> GitHub: ${contact.github}</a>
           </div>
         </div>
         <div style="clear: both;" class="section"></div>
         <div class="section">
           <h2>Conhecimento Técnico</h2>
-          <div class="middle-info">${getSkills(skills)}</div>
+          <div class="middle-info">
+            <p>Linguagens: TypeScript, JavaScript, C#, Java, Python</p>
+            <p>Front-end: React, Angular, Redux, React Query, HTML, CSS </p>
+            <p>Back-end & Arquitetura: Node.js, Express, NestJS, .NET, GraphQL, REST API, RabbitMQ, Socket.io </p>
+            <p>Engenharia de Software: SOLID, Clean Code, TDD, DDD, Micro-frontends </p>
+            <p>Bancos de Dados: PostgreSQL, MySQL, MongoDB </p>
+            <p>Testes e Validação: Jest, Vitest, Zod, Yup </p>
+            <p>Infraestrutura e Ferramentas: Docker, Azure, Azure Data Studio, Git, Linux, Postman, GitHub Actions, CI/CD </p>
+            <p>Metodologias Ágeis: Scrum, Kanban </p>
+          </div>
         </div>
         <div class="section">
           <h2>Formação Acadêmica</h2>

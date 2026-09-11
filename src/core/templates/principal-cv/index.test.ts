@@ -7,69 +7,90 @@ describe("deve gerar um pdf", () => {
   it("template", async () => {
     const data: DataInfo = {
       personal: {
-        name: "John Doe",
-        age: 30,
+        name: "Guilherme Santos do Amaral",
+        age: 24,
         position: "Desenvolvedor Full Stack"
       },
       contact: {
-        email: "john.doe@example.com",
-        phone: "+55 11 99999-9999",
-        linkedin: "https://linkedin.com/in/johndoe",
-        github: "https://github.com/johndoe",
-        portfolio: "https://johndoe.dev"
+        email: "gui.amaral123@outlook.com",
+        phone: "+55 51 9 8951-5251",
+        linkedin: "https://linkedin.com/in/guimrl",
+        github: "https://github.com/guimrl",
+        portfolio: "https://guimrl.github.io/"
       },
       address: {
-        street: "Av. Paulista",
-        number: 1000,
-        city: "São Paulo",
-        state: "SP",
+        street: null,
+        number: null,
+        city: "Canoas",
+        state: "RS",
         country: "Brasil",
-        neighborhood: "Bela Vista",
-        zip: "01310-100"
+        neighborhood: "Fátima",
+        zip: "92200-770"
       },
       education: [
         {
-          university: "Universidade de São Paulo",
-          major: "Engenharia de Software",
-          completionDate: new Date("2023-12-15"),
-          expectedGraduation: new Date("2023-12-15"),
+          university: "Anhanguera",
+          major: "Pós Graduação em Engenharia de Software",
+          completionDate: new Date("2025-01-02"),
+          expectedGraduation: new Date("2026-01-01"),
           isGraduated: true
         },
         {
-          university: "Anhanguera",
-          major: "Mestrado em Redes",
-          completionDate: null,
-          expectedGraduation: new Date("2027-12-15"),
-          isGraduated: false
+          university: "Estácio de Sá",
+          major: "Tecnólogo em Análise e Desenvolvimento de Sistemas",
+          completionDate: new Date("2023-12-02"),
+          expectedGraduation: new Date("2023-12-02"),
+          isGraduated: true
         }
       ],
       courses: [
         {
-          name: "Pipelines de Desenvolvimento e CI/CD",
-          institution: "Microsoft Learn",
-          completionDate: new Date("2025-09-28"),
-          isCompleted: false,
-          duration: "12h"
-        },
-        {
-          name: "React Avançado",
-          institution: "Plataforma de Cursos",
-          completionDate: new Date("2024-02-28"),
+          name: "Curso Web API ASP .NET Core Essencial (.NET 8 / .NET 9)",
+          institution: "José Carlos Macoratti",
+          completionDate: new Date("2026-08-28"),
           isCompleted: true,
-          duration: "40h"
+          duration: "47h"
         },
         {
-          name: "Dominando Node.js",
-          institution: "Udemy",
+          name: "Estruturas de Dados e Algoritmos",
+          institution: "Augusto Galego",
           completionDate: new Date("2025-02-28"),
           isCompleted: true,
           duration: "8h"
+        },
+        {
+          name: "Formação Comunicação",
+          institution: "Alura",
+          completionDate: new Date("2023-02-28"),
+          isCompleted: true,
+          duration: "49h"
+        },
+        {
+          name: "Formação TypeScript",
+          institution: "Alura",
+          completionDate: new Date("2023-02-28"),
+          isCompleted: true,
+          duration: "31h"
+        },
+        {
+          name: "Formação JavaScript para Front End",
+          institution: "Alura",
+          completionDate: new Date("2022-02-28"),
+          isCompleted: true,
+          duration: "60h"
+        },
+        {
+          name: "Desenvolvimento Web Full Stack",
+          institution: "Udemy",
+          completionDate: new Date("2022-02-28"),
+          isCompleted: true,
+          duration: "114h"
         }
       ],
       language: [
         {
           name: "Inglês",
-          level: "Avançado"
+          level: "Intermediário"
         },
         {
           name: "Espanhol",
@@ -78,34 +99,58 @@ describe("deve gerar um pdf", () => {
       ],
       experience: [
         {
-          company: "Google",
-          position: "Desenvolvedor Full Stack",
+          company: "GVdasa",
+          position: "Desenvolvedor Front End Pleno",
           companyResume:
-            "O Gmail, seu principal produto de correio eletrônico lançado em 2004, é um serviço de webmail seguro",
-          startDate: new Date("2022-01-01"),
-          endDate: new Date("2024-03-31"),
-          isCurrent: false,
-          description: [
-            "Desenvolvimento de aplicações web usando TypeScript, React e Node.js."
-          ]
-        },
-        {
-          company: "Amazon Web Services LTDA",
-          position: "Desenvolvedor Full Stack Senior",
-          companyResume:
-            "multinacional que abrange comércio eletrônico, computação em nuvem, streaming digital e inteligência artificial",
-          startDate: new Date("2026-01-01"),
+            "HUB de gestão educacional, ERP e portais para instituições de ensino.",
+          startDate: new Date("2026-01-02"),
           endDate: null,
           isCurrent: true,
           description: [
-            "Desenvolvimento de aplicações web usando TypeScript, React e Node.js.",
-            "Deploy e Integração com CI/CD",
-            "Resolução de chamados",
-            "Responsavel por realizar mentoria interna"
+            "Desenvolvimento e integração de Micro-frontends dentro de um ecossistema complexo, permitindo a evolução isolada dos portais de Professor, Aluno e Avaliações sem impactar a estabilidade global do sistema.",
+            "Criação de novas funcionalidades e correções em React com TypeScript, utilizando React Query para gerenciamento eficiente de estados assíncronos e cache de dados, otimizando a comunicação com as APIs.",
+            "Manutenção e correção de rotas em Web API, resolvendo falhas de integração e garantindo a consistência no fluxo de dados entre o back-end e as aplicações do portal.",
+            "Revisão e aprovação de pull requests garantindo os padrões arquiteturais e de qualidade de código estabelecidos pela equipe, com gestão de deploys em produção suportada por processos de integração e entrega contínuas(CI/CD)",
+            "Diagnóstico e resolução de chamados técnicos de clientes, transformando feedbacks em melhorias contínuas de UX e correções de bugs."
+          ]
+        },
+        {
+          company: "Workupy",
+          position: "Desenvolvedor Full Stack Pleno",
+          companyResume:
+            "Plataforma de desenvolvimento para criação de sites aplicativos usando no-code",
+          startDate: new Date("2025-09-02"),
+          endDate: new Date("2026-01-02"),
+          isCurrent: false,
+          description: [
+            "Corrigi bugs utilizando React e TypeScript que impactavam diretamente a experiência do usuário, incluindo falhas em funcionalidades como Undo/Redo, Copiar/Colar, duplicação de elementos e responsividade em telas menores.",
+            "Desenvolvi novos componentes para o editor visual da plataforma e realizei múltiplos ajustes na interface, corrigindo inconsistências de alinhamento, espaçamento, cores, transparência de elementos e funcionamento de inputs e sliders, garantindo uma experiência de edição mais fluida.",
+            "Garanti que as propriedades de estilo (largura, bordas, margens) aplicadas no editor fossem refletidas corretamente no site final da aplicação em produção, resolvendo discrepâncias de renderização."
+          ]
+        },
+        {
+          company: "Decision Systems",
+          position: "Desenvolvedor Full Stack",
+          companyResume: "Sistema de gestão backoffice, ERP, CRM",
+          startDate: new Date("2023-07-02"),
+          endDate: new Date("2025-09-02"),
+          isCurrent: false,
+          description: [
+            "Desenvolvimento de resolvers GraphQL integrando bancos SQL com TypeScript.",
+            "Estruturação e evolução de APIs GraphQL, definindo schemas, typedefs e resolvers alinhados às regras de negócio.",
+            "Aumento significativo na eficiência de consultas ao banco de dados com a introdução de Dataloaders para otimização de queries.",
+            "Implementação de esteiras de validação de dados utilizando Zod, garantindo consistência, segurança de tipagem e integridade das informações trafegadas.",
+            "Integração de serviços externos, APIs de pagamento, autenticação.",
+            "Criação de testes unitários com Jest e validações usando práticas de TDD para assegurar a qualidade do código.",
+            "Desenvolvimento de hooks reutilizáveis.",
+            "Criação de relatórios em PDF utilizando TypeScript e HTML para documentação e apresentação de dados.",
+            "Otimizações e correções de bugs em aplicações front-end com TypeScript.",
+            "Construção de dashboards interativos no front-end para visualização de métricas e dados em tempo real",
+            "Implementação de interfaces em React com foco em UX e Refatoração de código e implementação de soluções eficientes para otimização de processos e automações."
           ]
         }
       ],
-      skills: [{ name: "TypeScript" }, { name: "React" }, { name: "Node.js" }]
+      skills: []
     };
 
     const dependency = new PricipalCVPDF();
