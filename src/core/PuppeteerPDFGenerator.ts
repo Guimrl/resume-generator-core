@@ -6,9 +6,17 @@ export class PuppeteerPDFGenerator implements PDFGenerator {
   async generate(body: string, options: PDFOptions = {}): Promise<string> {
     const { orientation = "portrait", format = "A4", border, style } = options;
     const margin = border || "0.5cm";
+    const isVercel = Boolean(process.env.VERCEL);
+    const chromium = isVercel ? await import("@sparticuz/chromium") : undefined;
+    const executablePath = chromium
+      ? await chromium.default.executablePath()
+      : undefined;
     const browser = await puppeteer.launch({
       headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"]
+      args: chromium
+        ? chromium.default.args
+        : ["--no-sandbox", "--disable-setuid-sandbox"],
+      executablePath
     });
 
     try {

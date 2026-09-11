@@ -17,6 +17,7 @@
     "dev": "ts-node src/index.ts"
   },
   "dependencies": {
+    "@sparticuz/chromium": "^152.0.0",
     "@types/lodash": "4.17.24",
     "cors": "^2.8.6",
     "date-fns": "4.1.0",

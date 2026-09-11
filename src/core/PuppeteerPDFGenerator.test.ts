@@ -24,9 +24,11 @@ describe("PuppeteerPDFGenerator", () => {
     close: jest.fn()
   };
   const launch = jest.mocked(puppeteer.launch);
+  const originalVercel = process.env.VERCEL;
 
   beforeEach(() => {
     jest.resetAllMocks();
+    delete process.env.VERCEL;
     launch.mockResolvedValue(
       browser as unknown as Awaited<ReturnType<typeof puppeteer.launch>>
     );
@@ -37,13 +39,18 @@ describe("PuppeteerPDFGenerator", () => {
     page.pdf.mockResolvedValue(pdfBytes);
   });
 
+  afterAll(() => {
+    process.env.VERCEL = originalVercel;
+  });
+
   it("returns the PDF bytes as base64 with the existing default page settings", async () => {
     const pdf = await new PuppeteerPDFGenerator().generate(body);
 
     expect(Buffer.from(pdf, "base64")).toEqual(Buffer.from(pdfBytes));
     expect(launch).toHaveBeenCalledWith({
       headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"]
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      executablePath: undefined
     });
     expect(page.pdf).toHaveBeenCalledWith({
       format: "A4",
