@@ -43,7 +43,7 @@ describe("PrincipalCVRouter", () => {
     expect(Number(response.headers.get("Retry-After"))).toBeGreaterThan(0);
     expect(response.headers.has("RateLimit")).toBe(true);
     expect(await response.json()).toEqual({
-      message: "Too many PDF generation requests. Please try again later."
+      message: "Too many requests. Please try again later."
     });
 
     const controller = jest.mocked(PrincipalCVController).mock.results[0].value;

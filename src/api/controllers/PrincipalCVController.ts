@@ -15,9 +15,11 @@ class PrincipalCVController {
       });
     } catch (error: unknown) {
       return res.status(500).json({
-        message: `Error: ${error instanceof Error
-          ? error.message
-          : "unknown error - failed to create a Principal CV."}`
+        message: `Error: ${
+          error instanceof Error
+            ? error.message
+            : "unknown error - failed to create a Principal CV."
+        }`
       });
     }
   }
