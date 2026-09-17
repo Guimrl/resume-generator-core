@@ -1,10 +1,11 @@
-import express from "express";
+import { Router } from "express";
 import PrincipalCVController from "../controllers/PrincipalCVController";
+import pdfRateLimiter from "../middlewares/PDFRateLimiter";
 
-const router = express.Router();
+const router = Router();
 
 const principalCVController = new PrincipalCVController();
 
-router.post("/principal", principalCVController.create);
+router.post("/principal", pdfRateLimiter, principalCVController.create);
 
 export default router;
