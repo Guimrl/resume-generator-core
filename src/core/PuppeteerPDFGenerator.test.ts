@@ -1,12 +1,22 @@
 /// <reference types="jest" />
 
 import puppeteer from "puppeteer";
+import chromium from "@sparticuz/chromium";
+import path from "node:path";
 import { PuppeteerPDFGenerator } from "./PuppeteerPDFGenerator";
 import { generatePDF } from "./index";
 
 jest.mock("puppeteer", () => ({
   __esModule: true,
   default: { launch: jest.fn() }
+}));
+
+jest.mock("@sparticuz/chromium", () => ({
+  __esModule: true,
+  default: {
+    args: ["--no-sandbox", "--single-process"],
+    executablePath: jest.fn()
+  }
 }));
 
 describe("PuppeteerPDFGenerator", () => {
@@ -26,7 +36,11 @@ describe("PuppeteerPDFGenerator", () => {
   const launch = jest.mocked(puppeteer.launch);
 
   beforeEach(() => {
+    jest.replaceProperty(process, "env", { ...process.env });
+    delete process.env.VERCEL;
+    delete process.env.PUPPETEER_EXECUTABLE_PATH;
     jest.resetAllMocks();
+    jest.mocked(chromium.executablePath).mockResolvedValue("/tmp/chromium");
     launch.mockResolvedValue(
       browser as unknown as Awaited<ReturnType<typeof puppeteer.launch>>
     );
@@ -35,6 +49,51 @@ describe("PuppeteerPDFGenerator", () => {
     page.setContent.mockResolvedValue(undefined);
     page.addStyleTag.mockResolvedValue(undefined);
     page.pdf.mockResolvedValue(pdfBytes);
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it("uses the bundled browser on Vercel without a user Chrome cache", async () => {
+    process.env.VERCEL = "1";
+
+    const pdf = await new PuppeteerPDFGenerator().generate(body);
+
+    expect(chromium.executablePath).toHaveBeenCalledWith(
+      path.join(process.cwd(), "node_modules/@sparticuz/chromium/bin")
+    );
+    expect(launch).toHaveBeenCalledWith({
+      headless: "shell",
+      args: chromium.args,
+      executablePath: "/tmp/chromium"
+    });
+    expect(Buffer.from(pdf, "base64")).toEqual(Buffer.from(pdfBytes));
+    expect(browser.close).toHaveBeenCalledTimes(1);
+  });
+
+  it("preserves an explicitly configured browser on Vercel", async () => {
+    process.env.VERCEL = "1";
+    process.env.PUPPETEER_EXECUTABLE_PATH = "/usr/bin/chromium";
+
+    await new PuppeteerPDFGenerator().generate(body);
+
+    expect(chromium.executablePath).not.toHaveBeenCalled();
+    expect(launch).toHaveBeenCalledWith(
+      expect.objectContaining({ headless: true })
+    );
+  });
+
+  it("preserves extraction errors without trying the missing cached Chrome", async () => {
+    process.env.VERCEL = "1";
+    const error = new Error("Chromium extraction failed");
+    jest.mocked(chromium.executablePath).mockRejectedValueOnce(error);
+
+    await expect(new PuppeteerPDFGenerator().generate(body)).rejects.toBe(
+      error
+    );
+
+    expect(launch).not.toHaveBeenCalled();
   });
 
   it("returns the PDF bytes as base64 with the existing default page settings", async () => {
@@ -56,6 +115,7 @@ describe("PuppeteerPDFGenerator", () => {
       printBackground: true
     });
     expect(page.addStyleTag).not.toHaveBeenCalled();
+    expect(chromium.executablePath).not.toHaveBeenCalled();
     expect(browser.close).toHaveBeenCalledTimes(1);
   });
 
