@@ -1,5 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "src/index.ts": {
+      "includeFiles": "{node_modules/@sparticuz/chromium/bin/**,src/core/templates/**/*.css}",
+      "maxDuration": 60
+    }
+  },
   "git": {
     "deploymentEnabled": {
       "**": false,
